@@ -32,7 +32,6 @@ def ansiColors(fg: tuple[int, int, int], bg: tuple[int, int, int]) -> str:
     fgr, fgg, fgb = fg
     bgr, bgg, bgb = bg
 
-
     return f"\033[38;2;{fgr};{fgg};{fgb}m\033[48;2;{bgr};{bgg};{bgb}m"
 
 
