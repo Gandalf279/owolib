@@ -1,4 +1,5 @@
 #!/home/cj/Documents/owolib/.venv/bin/python
+
 # ---------------------------------------------------------------------------- #
 #                OWOlib - Omnipresent Workflow Optimizer Library               #
 # ---------------------------------------------------------------------------- #
@@ -6,11 +7,11 @@
 import sys
 import os
 from dotenv import load_dotenv
-
-LOGFILE = "default.log"
+import datetime as dt
 
 load_dotenv()
 DEFAULT_VERBOSITY = int(os.getenv("DEFAULT_VERBOSITY", "0"))
+LOGFILE = os.getenv("DEFAULT_LOGFILE", "default.log")
 #print(f"You are using OWOlib v{os.getenv("VERSION")}")
 
 class Colors:
@@ -38,32 +39,37 @@ def ansiColors(fg: tuple[int, int, int], bg: tuple[int, int, int]) -> str:
 def printFatal(msg: str, vLevel=DEFAULT_VERBOSITY, code=1) -> None:
     """Print the given text if the verbosity level given is equal to 0, then exit with the given error code."""
     if vLevel == 0:
-        msg = f"{Colors.RED}{Colors.UNDERLINE}{Colors.BOLD}    FATAL: {msg}    {Colors.RESET}"
-        print(msg)
+        text = f"{Colors.RED}{Colors.UNDERLINE}{Colors.BOLD}    FATAL: {msg}    {Colors.RESET}"
+        print(text)
         sys.exit(code)
 
 def printError(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
     """Print the given text if the verbosity level given is greater than or equal to 1."""
     if vLevel >= 1:
-        msg = f"{Colors.RED}ERROR: {msg}{Colors.RESET}"
-        print(msg)
-        return msg
+        print(f"{Colors.RED}ERROR: {msg}{Colors.RESET}")
+        return f"ERROR: {msg}"
     return ""
 
-def printDebug(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
+def printWarning(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
     """Print the given text if the verbosity level given is greater than or equal to 2."""
     if vLevel >= 2:
-        msg = f"{Colors.YELLOW}DEBUG: {msg}{Colors.RESET}"
-        print(msg)
-        return msg
+        print(f"{Colors.YELLOW}WARNING: {msg}{Colors.RESET}")
+        return f"WARNING: {msg}"
+    return ""
+
+
+def printDebug(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
+    """Print the given text if the verbosity level given is greater than or equal to 3."""
+    if vLevel >= 3:
+        print(f"{Colors.MAGENTA}DEBUG: {msg}{Colors.RESET}")
+        return f"DEBUG: {msg}"
     return ""
 
 def printInfo(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
-    """Print the given text if the verbosity level given is greater than or equal to 3."""
-    if vLevel >= 3:
-        msg = f"{Colors.BLUE}INFO: {msg}{Colors.RESET}"
-        print(msg)
-        return msg
+    """Print the given text if the verbosity level given is greater than or equal to 4."""
+    if vLevel >= 4:
+        print(f"{Colors.BLUE}INFO: {msg}{Colors.RESET}")
+        return f"INFO: {msg}"
     return ""
 
 def debugPause(debug: int) -> None:
@@ -74,3 +80,8 @@ def debugPause(debug: int) -> None:
 def getCurrentPath() -> str:
     return os.getcwd()
 
+def log(text: str) -> str:
+    with open(LOGFILE, mode="a") as file:
+        text = f"{dt.datetime.now().replace(microsecond=0)}: {text}\n"
+        file.write(text)
+        return text
