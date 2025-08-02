@@ -30,6 +30,7 @@ class Colors:
 
 
 def ansiColors(fg: tuple[int, int, int], bg: tuple[int, int, int]) -> str:
+    """"Takes two RGB values and returns an ANSI string."""
     fgr, fgg, fgb = fg
     bgr, bgg, bgb = bg
 
@@ -81,6 +82,7 @@ def getCurrentPath() -> str:
     return os.getcwd()
 
 def log(text: str) -> str:
+    """Log the text given into the file specified in the variable LOGFILE."""
     with open(LOGFILE, mode="a") as file:
         text = f"{dt.datetime.now().replace(microsecond=0)}: {text}\n"
         file.write(text)
