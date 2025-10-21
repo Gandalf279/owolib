@@ -49,7 +49,7 @@ def testAnsiColors():
         assert owo.ansiColors(fg=(0, 0), bg=(255, 255, 255)) == "\033[38;2;0;0;0m\033[48;2;255;255;255m" # pyright: ignore[reportArgumentType]
 
 def testLog():
-    assert owo.log("Hello Log") == f"{dt.datetime.now().replace(microsecond=0)}: Hello Log\n"
+    assert owo.log("testing") == f"{dt.datetime.now().replace(microsecond=0)}: testing\n"
 
 def test_debugPause_called():
     with patch("builtins.input", return_value=""):
@@ -59,4 +59,15 @@ def test_debugPause_not_called():
     with patch("builtins.input") as mock_input:
         owo.debugPause(False)
         mock_input.assert_not_called()
-        
+
+def testDefaultLogfileWarning(capsys):
+    owo.LOGFILE = os.getenv("LOGFILE", "owolib.log")
+    owo.log("testing")
+    capturedOutput = capsys.readouterr()
+    assert capturedOutput.out == f"{owo.Colors.YELLOW}WARNING: Using default Logfile {os.getenv("DEFAULT_LOGFILE", "owolib.py")}\n Change the default in .env or use the variable LOGFILE to set a name for the file and disable this warning.{owo.Colors.RESET}\n"
+
+def testNoDefaultLogfileWarning(capsys):
+    owo.LOGFILE = "testabc123.test.log"
+    owo.log("testing")
+    capturedOutput = capsys.readouterr()
+    assert capturedOutput.out == ""

@@ -11,7 +11,7 @@ import datetime as dt
 
 load_dotenv()
 DEFAULT_VERBOSITY = int(os.getenv("DEFAULT_VERBOSITY", "0"))
-LOGFILE = os.getenv("DEFAULT_LOGFILE", "default.log")
+LOGFILE = os.getenv("DEFAULT_LOGFILE", "owolib.log")
 #print(f"You are using OWOlib v{os.getenv("VERSION")}")
 
 class Colors:
@@ -83,7 +83,11 @@ def getCurrentPath() -> str:
 
 def log(text: str) -> str:
     """Log the text given into the file specified in the variable LOGFILE."""
+    if LOGFILE == os.getenv("DEFAULT_LOGFILE", "owolib.log"):
+        printWarning(f"Using default Logfile {os.getenv("DEFAULT_LOGFILE", "owolib.py")}\n Change the default in .env or use the variable LOGFILE to set a name for the file and disable this warning.")
     with open(LOGFILE, mode="a") as file:
         text = f"{dt.datetime.now().replace(microsecond=0)}: {text}\n"
         file.write(text)
         return text
+
+
