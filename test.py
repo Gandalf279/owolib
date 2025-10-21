@@ -5,10 +5,10 @@ import pytest
 import os
 
 def testPrintInfo():
-    assert owo.printInfo("Hello Info", 0) == ""
-    assert owo.printInfo("Hello Info", 1) == ""
-    assert owo.printInfo("Hello Info", 2) == ""
-    assert owo.printInfo("Hello Info", 3) == ""
+    assert owo.printInfo("Hello Info", 0) == "INFO: Hello Info"
+    assert owo.printInfo("Hello Info", 1) == "INFO: Hello Info"
+    assert owo.printInfo("Hello Info", 2) == "INFO: Hello Info"
+    assert owo.printInfo("Hello Info", 3) == "INFO: Hello Info"
     assert owo.printInfo("Hello Info", 4) == "INFO: Hello Info"
     assert owo.printInfo("Hello Info", 5) == "INFO: Hello Info"
     assert owo.printInfo("Hello Info", 621) == "INFO: Hello Info"

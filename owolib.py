@@ -37,6 +37,13 @@ def ansiColors(fg: tuple[int, int, int], bg: tuple[int, int, int]) -> str:
     return f"\033[38;2;{fgr};{fgg};{fgb}m\033[48;2;{bgr};{bgg};{bgb}m"
 
 
+def printInfo(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
+    """Print the given text if the verbosity level given is greater than or equal to 0."""
+    if vLevel >= 0:
+        print(f"{Colors.BLUE}INFO: {msg}{Colors.RESET}")
+        return f"INFO: {msg}"
+    return ""
+
 def printFatal(msg: str, vLevel=DEFAULT_VERBOSITY, code=1) -> None:
     """Print the given text if the verbosity level given is equal to 0, then exit with the given error code."""
     if vLevel == 0:
@@ -66,12 +73,6 @@ def printDebug(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
         return f"DEBUG: {msg}"
     return ""
 
-def printInfo(msg: str, vLevel=DEFAULT_VERBOSITY) -> str:
-    """Print the given text if the verbosity level given is greater than or equal to 4."""
-    if vLevel >= 4:
-        print(f"{Colors.BLUE}INFO: {msg}{Colors.RESET}")
-        return f"INFO: {msg}"
-    return ""
 
 def debugPause(debug: int) -> None:
     """Pause and wait for the user to press Enter to continue"""
